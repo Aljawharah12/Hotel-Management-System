@@ -1,108 +1,142 @@
-# MyHotelJavaViews
+# Hotel Management System
 
-مشروع Java Swing مرتب بنفس فكرة مشروع صاحبتك، لكن مبني على جداولك وواجهاتك:
+Java Swing desktop application for managing hotel reservations, guests, employees, invoices, rooms, and services for Intercontinental Dar Altawhid Makkah.
 
-- LoginFrame
-- GuestFrame
-- EmployeeFrame
-- DashboardFrame
-- DB connection file with `URL`, `USER`, `PASSWORD`
+## Project Overview
 
-## أهم ملف للاتصال
+This system provides two main dashboards:
 
-افتحي:
+- Guest dashboard for creating reservations, requesting services, viewing invoices, and paying eligible invoices.
+- Employee dashboard for managing reservations, guests, rooms, services, invoices, employees, and employee assignments.
+
+The application connects to a MySQL database using JDBC and uses Maven for dependency management.
+
+## Technologies
+
+- Java
+- Java Swing
+- MySQL
+- JDBC
+- Maven
+
+## Project Structure
+
+```text
+src/main/java
+|-- Main.java
+|-- com/myhotel/app
+|   |-- MyHotelApp.java
+|   `-- Session.java
+|-- com/myhotel/db
+|   `-- DB.java
+`-- com/myhotel/ui
+    |-- AppTheme.java
+    |-- DashboardFrame.java
+    |-- DialogUtil.java
+    |-- EmployeeFrame.java
+    |-- GuestFrame.java
+    |-- LoginFrame.java
+    `-- TableUtil.java
+```
+
+## Database Setup
+
+The application expects a MySQL database named:
+
+```text
+Intercontinental_Dar_Altawhid_Makkah
+```
+
+Update the database connection in:
 
 ```text
 src/main/java/com/myhotel/db/DB.java
 ```
 
-وعدلي:
-
 ```java
 private static final String URL = "jdbc:mysql://localhost:3306/Intercontinental_Dar_Altawhid_Makkah?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 private static final String USER = "root";
-private static final String PASSWORD = "";
+private static final String PASSWORD = "your_mysql_password";
 ```
 
-اسم قاعدة البيانات مضبوط على `Intercontinental_Dar_Altawhid_Makkah` والباسورد فاضي حاليًا.
+## SQL Files
 
-## التشغيل
+- `sample_data.sql`: sample reservations, invoices, services, and employee assignments.
+- `employee_service_inserts.sql`: sample employees and hotel services.
+- `add_password_columns.sql`: adds password columns for guest and employee login.
+- `src/main/resources/sql/my_hotel_views.sql`: optional SQL views for guest and employee data.
 
-من داخل فولدر المشروع:
+Run the SQL files in MySQL Workbench before starting the application.
+
+## How To Run
+
+From the project folder:
 
 ```bash
 mvn compile exec:java
 ```
 
-أو من VS Code شغلي الملف:
+You can also run the main file from an IDE such as VS Code:
 
 ```text
 src/main/java/Main.java
 ```
 
-ملف التشغيل الأساسي موجود هنا:
+## Login
 
-```text
-src/main/java/com/myhotel/app/MyHotelApp.java
-```
+The login screen supports two roles:
 
-## تسجيل الدخول
+- Guest: login using `Guest_id` and guest password.
+- Employee: login using `Employee_id` and employee password.
 
-لا يوجد password في جداولك، لذلك الدخول يكون بالـ ID فقط:
+New guests can create an account from the login screen.
 
-- Guest: اكتبي `Guest_id`
-- Employee: اكتبي `Employee_id`
+## Guest Features
 
-## الشاشات
+- View dashboard summary.
+- Update guest profile.
+- Create a new reservation.
+- View available rooms.
+- View available services.
+- Request a service for an existing reservation.
+- View invoices.
+- Pay invoices only when the status is `Pending` or `Unpaid`.
+- View requested services.
 
-### Guest View
+Guest validation includes:
 
-- Dashboard
-- My Profile
-- Rooms
-- Services
-- My Invoices
-- My Reservation Services
+- Reservation date is locked to the current date.
+- Check-in date must be before check-out date.
+- Reservation date cannot be after check-in date.
+- Invalid service IDs show a clear message.
+- Service ID, reservation number, and invoice ID must be positive numbers.
+- Paid invoices cannot be paid again.
 
-### Employee View
+## Employee Features
 
-- Dashboard
-- Reservations
-- Guests
-- Rooms
-- Services
-- Invoices
-- Reservation Services
-- Employees
-- Assignments
+- View hotel dashboard summary.
+- Update employee profile.
+- View all reservations.
+- Add a reservation for a guest.
+- Update an existing reservation.
+- Delete an old reservation.
+- View guest details.
+- View rooms.
+- View services.
+- View invoices.
+- View reservation services.
+- View employees.
+- View employee assignments.
 
-## Views SQL
+Employee reservation management includes:
 
-ملف SQL اختياري موجود هنا:
+- Creating a reservation with an invoice.
+- Assigning new reservations to the current employee.
+- Updating reservation room, check-in date, check-out date, payment type, and invoice amount.
+- Deleting linked services, employee assignment, invoice, and reservation records safely.
 
-```text
-src/main/resources/sql/my_hotel_views.sql
-```
+## Notes
 
-يشمل:
-
-- `Guest_View`
-- `Employee_View`
-
-تقدرين تشغلينه في MySQL Workbench إذا تبغين views في قاعدة البيانات.
-
-## بيانات الموظفين والخدمات
-
-ملف جاهز للإدخال:
-
-```text
-employee_service_inserts.sql
-```
-
-## إضافة كلمة مرور
-
-ملف جاهز لإضافة عمود `Password` للضيف والموظف:
-
-```text
-add_password_columns.sql
-```
+- Build output in `target/` is ignored by Git.
+- The local JDK folder is ignored by Git and should not be uploaded to GitHub.
+- Make sure MySQL is running before starting the application.
