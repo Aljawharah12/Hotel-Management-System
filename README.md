@@ -56,7 +56,7 @@ src/main/java/com/myhotel/db/DB.java
 ```java
 private static final String URL = "jdbc:mysql://localhost:3306/Intercontinental_Dar_Altawhid_Makkah?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 private static final String USER = "root";
-private static final String PASSWORD = "your_mysql_password";
+private static final String PASSWORD = "";
 ```
 
 ## SQL Files
