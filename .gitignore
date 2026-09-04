@@ -1,0 +1,5 @@
+target/
+oracleJdk-26.jdk/
+.DS_Store
+*.iml
+.idea/
